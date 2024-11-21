@@ -2,7 +2,7 @@ import time
 from utilities.clear import clear
 from modules.pc import Pc
 from calc.ligarpc import ligarPc
-from calc.reportar import reportar
+#from calc.reportar import reportar
 
 class Program:
     def __init__(this):
@@ -11,6 +11,7 @@ class Program:
         this.horas = 0
         this.timerate = 0.5
         this.lista_manutencao = []
+        #lista de computadores
         this.pcs = [
             Pc("Maquina 1"),
             Pc("Maquina 2"),
@@ -19,6 +20,7 @@ class Program:
 
         while True:
             clear()
+            #printar dia, data e hora no 
             print(f"Dia {this.dia:02} | {this.horas:02}h{this.minutos:02}")
             ligarPc(this.pcs)
             this.listar_pcs()
@@ -43,7 +45,8 @@ class Program:
                 else:
                     #Computador Não Está quebrado
                     if pc.ligado and comp.tempo_de_vida > 0: comp.vidautil()
-                    if comp.tempo_de_vida <= 0: reportar([comp])
+                    if comp.tempo_de_vida <= 0: 
+                        pc.status = "Quebrado"
                     elif comp.tempo_de_vida <= 0:
                         comp.quebrado = True
                         pc.ligado = False

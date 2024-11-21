@@ -5,7 +5,3 @@ class Manut:
         this.tipo = tipo
         this.finalizada = False
         this.componentes = componentes
-        
-    
-        
-    
