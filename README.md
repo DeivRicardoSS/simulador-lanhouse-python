@@ -1,7 +1,4 @@
-# simulador-lanhouse-python
-Trabalho de logica de programação
-
-# Diagrama de Classes - Simulador Lanhouse
+# Diagrama de Classes - Simulador Lanhouse - Trabalho da disciplina de Lógica de Programação
 
 Este diagrama de classes descreve a estrutura e os relacionamentos entre os principais componentes do sistema **Simulador Lanhouse**, desenvolvido em Python.
 
