@@ -17,7 +17,7 @@ class App(ctk.CTk):
         def button_event():
             print('button pressed')
         
-        this.btn = ctk.CTkButton(this, text='Butãum', width=140, height=28, command=button_event)
+        this.btn = ctk.CTkButton(this, text='Iniciar', width=140, height=28, command=button_event)
         this.btn.place(x=center(400, 140), y=center(600, 28))
 
 app = App()

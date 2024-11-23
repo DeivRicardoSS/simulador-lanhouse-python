@@ -20,7 +20,7 @@ class Program:
 
         while True:
             clear()
-            #printar dia, data e hora no 
+            #printar dia, data e hora no terminal
             print(f"Dia {this.dia:02} | {this.horas:02}h{this.minutos:02}")
             ligarPc(this.pcs)
             this.listar_pcs()

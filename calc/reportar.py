@@ -1,7 +1,7 @@
 import time
 from calc.calctime import calctime
 from main import program
-from modules.manut import Manut
+from modules.manutencao import Manut
 def reportar(itens):
     preco = 0
     for item in itens:

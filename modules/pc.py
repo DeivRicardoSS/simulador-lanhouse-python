@@ -1,4 +1,4 @@
-from modules.comp import Comp
+from modules.computador import Comp
 
 class Pc:
     def __init__(this, id):
