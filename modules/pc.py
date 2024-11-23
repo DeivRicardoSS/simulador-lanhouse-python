@@ -1,4 +1,4 @@
-from modules.computador import Comp
+from modules.computador import Computador 
 
 class Pc:
     def __init__(this, id):
@@ -6,10 +6,9 @@ class Pc:
         this.ligado = False
         this.status = "Funcionando"
         this.componentes = [ 
-            Comp("cpu"), 
-            Comp("memoria"), 
-            Comp("placa_mae"), 
-            Comp("memoria_ram"), 
-            Comp("fonte")
+            Computador("cpu"),
+            Computador("memoria"),
+            Computador("placa_mae"),
+            Computador("memoria_ram"),
+            Computador("fonte")
         ]
-                            
