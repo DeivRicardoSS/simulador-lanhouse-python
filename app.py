@@ -9,8 +9,8 @@ class App:
         self.root.title("Simulador de Lan House")
 
         # Tamanho inicial da tela e configuração de redimensionamento
-        self.root.geometry("1366x768")  # Tamanho inicial
-        self.root.minsize(800, 600)  # Tamanho mínimo para não reduzir demais
+        self.root.geometry("1466x768")  # Tamanho inicial
+        self.root.minsize(800, 800)  # Tamanho mínimo para não reduzir demais
         self.root.config(bg="#2c3e50")
 
         # Título da janela
@@ -78,7 +78,7 @@ class App:
             # Adiciona os nomes dos componentes
             for componente in pc.componentes:
                 nome_amigavel = self.mapeamento_componentes.get(componente.id, componente.id)  # Usa o nome amigável
-                label = tk.Label(frame, text=f"{nome_amigavel}: {componente}", font=("Arial", 14), bg="#ecf0f1", anchor="w", wraplength=250)  # Adicionando wraplength
+                label = tk.Label(frame, text=f"{nome_amigavel}: {componente}", font=("Arial", 14), bg="#ecf0f1", anchor="w")
                 label.pack(fill="x", pady=5)
                 self.computadores_labels.append(label)
 
@@ -92,9 +92,6 @@ class App:
         # Configuração de expansão para as colunas
         for col in range(3):  # Como temos 3 computadores
             self.computadores_frame.grid_columnconfigure(col, weight=1, uniform="computador")
-
-        # Configuração de expansão para a linha de computadores (no caso, temos uma linha de computadores)
-        self.computadores_frame.grid_rowconfigure(0, weight=1)
 
     def atualizar_interface(self):
         """Atualiza as informações na interface sem recriar os widgets"""
