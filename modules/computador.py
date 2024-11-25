@@ -1,6 +1,5 @@
 import random
 
-
 class Computador:
     COMPONENTES_CONFIG = {
         "cpu": {"preco": 500, "reducao_vida": 0.2},
@@ -20,14 +19,29 @@ class Computador:
         self.reducao_vida = Computador.COMPONENTES_CONFIG[id]["reducao_vida"]
 
     def vidautil(self):
+        """Reduz a durabilidade do componente"""
         self.tempo_de_vida -= self.reducao_vida
         if self.tempo_de_vida <= 0:
+            self.tempo_de_vida = 0  # Não permitir durabilidade negativa
             self.quebrado = True
 
     def quebrar_aleatorio(self):
+        """Quebra o componente aleatoriamente com 10% de chance"""
         if random.randint(0, 9) == 9:
             self.quebrado = True
 
+    def manutencao_preventiva(self):
+        """Restaura a durabilidade para 100% e marca o componente como não quebrado"""
+        self.tempo_de_vida = 100
+        self.quebrado = False
+
+    def manutencao_corretiva(self):
+        """Corrige falhas e reduz um pouco a durabilidade"""
+        if self.quebrado:
+            self.tempo_de_vida = 80  # Um valor fixo após manutenção corretiva
+            self.quebrado = False
+
     def __str__(self):
-        return (f"{self.id}: Durabilidade {self.tempo_de_vida:.1f}% - "
-                f"Quebrado: {self.quebrado}")
+        """Retorna a descrição do componente"""
+        return (f"{self.id.capitalize()}: Durabilidade {self.tempo_de_vida:.1f}% - "
+                f"Quebrado: {'Sim' if self.quebrado else 'Não'}")

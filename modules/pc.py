@@ -1,6 +1,5 @@
 from modules.computador import Computador
 
-
 class Pc:
     def __init__(self, id):
         self.id = id
@@ -14,11 +13,13 @@ class Pc:
 
     def manutencao_preventiva(self):
         for componente in self.componentes:
-            componente.tempo_de_vida = 100
-            componente.quebrado = False
+            componente.manutencao_preventiva()
 
     def manutencao_corretiva(self):
         for componente in self.componentes:
-            if componente.quebrado:
-                componente.tempo_de_vida = 80
-                componente.quebrado = False
+            componente.manutencao_corretiva()
+
+    def __str__(self):
+        # Exibe as informações de todos os componentes no formato desejado
+        componentes_info = "\n".join([str(componente) for componente in self.componentes])
+        return f"Computador {self.id}:\n{componentes_info}"

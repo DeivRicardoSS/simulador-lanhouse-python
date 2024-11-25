@@ -1,16 +1,17 @@
 import tkinter as tk
-from tkinter import ttk
 from datetime import datetime
 from main import Program
 
+
 class App:
     def __init__(self):
+        print("Iniciando tkinter")  # Print para depuração
+
         self.root = tk.Tk()
         self.root.title("Simulador de Lan House")
 
-        # Tamanho inicial da tela e configuração de redimensionamento
-        self.root.geometry("1466x768")  # Tamanho inicial
-        self.root.minsize(800, 800)  # Tamanho mínimo para não reduzir demais
+        # Configurações da página
+        self.root.geometry("1466x768")
         self.root.config(bg="#2c3e50")
 
         # Título da janela
@@ -25,10 +26,7 @@ class App:
         self.button_iniciar = tk.Button(self.root, text="Iniciar", font=("Arial", 18), command=self.iniciar, bg="#16a085", fg="white", relief="flat", padx=20, pady=10)
         self.button_iniciar.pack(pady=20)
 
-        # Inicializando o programa, mas ainda sem exibir os computadores
-        self.program = Program(self.atualizar_interface)
-
-        # Lista para armazenar os nomes dos componentes dos computadores
+        # Lista para armazenar os nomes de componentes dos computadores
         self.computadores_labels = []
 
         # Mapeamento de componentes para exibir nomes amigáveis
@@ -40,78 +38,85 @@ class App:
             "fonte": "Fonte"
         }
 
-        # Frame de computadores que será redimensionável
+        # Frame de computadores
         self.computadores_frame = tk.Frame(self.root, bg="#2c3e50")
         self.computadores_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        # Inicia a interface
-        self.root.mainloop()
+        # Inicializa o programa (com PCs e manutenção)
+        self.program = Program(self.atualizar_interface)
 
     def iniciar(self):
         """Função chamada quando o botão 'Iniciar' é pressionado"""
+        print("Botão Iniciar pressionado")  # Depuração
+
         # Remove o botão iniciar da tela
         self.button_iniciar.pack_forget()
 
-        # Criação dos computadores
+        # Criação dos computadores e componentes
         self.criar_computadores()
-
-        # Exibe o dinheiro na tela após o início do programa
-        self.label_dinheiro = tk.Label(self.root, text=f"Dinheiro: R$ {self.program.dinheiro:.2f}", font=("Arial", 18), bg="#2c3e50", fg="white")
-        self.label_dinheiro.pack(pady=10)
 
         # Atualiza a interface a cada segundo
         self.atualizar_interface()
 
     def criar_computadores(self):
         """Criação dos computadores e seus componentes"""
-        # Nomes para os computadores
         nomes_computadores = ["Computador 1", "Computador 2", "Computador 3"]
 
-        # Adiciona uma margem maior entre os computadores
         for idx, pc in enumerate(self.program.computadores):
             frame = tk.Frame(self.computadores_frame, borderwidth=2, relief="groove", bg="#ecf0f1", padx=15, pady=20, width=400)
-            frame.grid(row=0, column=idx, padx=10, pady=10, sticky="nsew")  # Usando grid para controle de posição
+            frame.grid(row=0, column=idx, padx=10, pady=10, sticky="nsew")
 
-            # Título do computador
+            # Nome do computador
             tk.Label(frame, text=nomes_computadores[idx], font=("Arial", 16, "bold"), bg="#ecf0f1").pack(pady=5)
 
-            # Adiciona os nomes dos componentes
+            # Exibe os componentes do PC
             for componente in pc.componentes:
-                nome_amigavel = self.mapeamento_componentes.get(componente.id, componente.id)  # Usa o nome amigável
-                label = tk.Label(frame, text=f"{nome_amigavel}: {componente}", font=("Arial", 14), bg="#ecf0f1", anchor="w")
+                nome_amigavel = self.mapeamento_componentes.get(componente.id, componente.id)
+                label = tk.Label(frame, text=str(componente), font=("Arial", 14), bg="#ecf0f1", anchor="w")
                 label.pack(fill="x", pady=5)
                 self.computadores_labels.append(label)
 
-            # Botões de manutenção (estilizados)
+            # Botões de manutenção
             buttons_frame = tk.Frame(frame, bg="#ecf0f1")
             buttons_frame.pack(pady=15)
 
-            tk.Button(buttons_frame, text="Preventiva (R$ 50)", command=lambda p=pc: self.program.manutencao_preventiva(p), font=("Arial", 14), bg="#27ae60", fg="white", relief="flat", padx=20, pady=5).pack(side="left", padx=10)
-            tk.Button(buttons_frame, text="Corretiva (R$ 30)", command=lambda p=pc: self.program.manutencao_corretiva(p), font=("Arial", 14), bg="#e74c3c", fg="white", relief="flat", padx=20, pady=5).pack(side="left")
+            # Botão Preventiva
+            tk.Button(buttons_frame, text="Preventiva (R$ 50)", command=lambda p=pc: self.manutencao_preventiva(p), font=("Arial", 14), bg="#27ae60", fg="white", relief="flat", padx=20, pady=5).pack(side="left", padx=10)
+            
+            # Botão Corretiva
+            tk.Button(buttons_frame, text="Corretiva (R$ 30)", command=lambda p=pc: self.manutencao_corretiva(p), font=("Arial", 14), bg="#e74c3c", fg="white", relief="flat", padx=20, pady=5).pack(side="left")
 
-        # Configuração de expansão para as colunas
-        for col in range(3):  # Como temos 3 computadores
-            self.computadores_frame.grid_columnconfigure(col, weight=1, uniform="computador")
+        # Ajuste da largura das colunas (três computadores na tela)
+        for col in range(3):
+            self.computadores_frame.grid_columnconfigure(col, weight=1, minsize=200)
+
+    def manutencao_preventiva(self, computador):
+        """Função para manutenção preventiva"""
+        print(f"Manutenção preventiva iniciada no {computador}")  # Print para depuração
+        # Aqui vai a lógica para realizar a manutenção preventiva no computador
+
+    def manutencao_corretiva(self, computador):
+        """Função para manutenção corretiva"""
+        print(f"Manutenção corretiva iniciada no {computador}")  # Print para depuração
+        # Aqui vai a lógica para realizar a manutenção corretiva no computador
 
     def atualizar_interface(self):
-        """Atualiza as informações na interface sem recriar os widgets"""
-        # Atualiza a data e hora
-        self.label_data_hora.config(text=datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+        """Atualiza as informações na interface gráfica"""
+        print("Atualizando interface...")  # Depuração
 
-        # Atualiza o valor do dinheiro
-        self.label_dinheiro.config(text=f"Dinheiro: R$ {self.program.dinheiro:.2f}")
-
-        # Atualiza os componentes dos computadores
-        label_idx = 0
-        for pc in self.program.computadores:
+        for idx, pc in enumerate(self.program.computadores):
             for j, componente in enumerate(pc.componentes):
-                nome_amigavel = self.mapeamento_componentes.get(componente.id, componente.id)  # Usa o nome amigável
-                self.computadores_labels[label_idx].config(text=f"{nome_amigavel}: {componente}")
-                label_idx += 1  # Incrementa o índice para o próximo componente
+                label = self.computadores_labels[idx * len(pc.componentes) + j]
+                label.config(text=str(componente))  # Atualiza o texto com as informações do componente
 
-        # Chama a função de atualização da interface a cada 1000ms (1 segundo)
+        # Atualiza a data e hora
+        agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        self.label_data_hora.config(text=f"Data e Hora: {agora}")
+
+        # Atualiza a interface a cada 1000 ms (1 segundo)
         self.root.after(1000, self.atualizar_interface)
 
-
+# Inicia a aplicação
 if __name__ == "__main__":
-    App()
+    app = App()
+    app.root.mainloop()  # Aqui ocorre a execução da interface

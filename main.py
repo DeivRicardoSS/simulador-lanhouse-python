@@ -1,28 +1,22 @@
+from modules.computador import Computador
 from modules.pc import Pc
 
 
 class Program:
-    def __init__(self, atualizar_interface_callback):
-        self.computadores = [
-            Pc("Máquina 1"),
-            Pc("Máquina 2"),
-            Pc("Máquina 3"),
-        ]
-        self.dinheiro = 1000
-        self.atualizar_interface_callback = atualizar_interface_callback
+    def __init__(self, callback_atualizar):
+        self.callback_atualizar = callback_atualizar
+        self.computadores = [Pc(id=f"pc_{i}") for i in range(1, 4)]  # Inicializa os PCs
 
     def manutencao_preventiva(self, pc):
-        if self.dinheiro >= 50:
-            pc.manutencao_preventiva()
-            self.dinheiro -= 50
-            self.atualizar_interface_callback()
-        else:
-            print("Dinheiro insuficiente para manutenção preventiva!")
+        """Simula manutenção preventiva para o PC"""
+        pc.manutencao_preventiva()
+        self.callback_atualizar()
 
     def manutencao_corretiva(self, pc):
-        if self.dinheiro >= 30:
-            pc.manutencao_corretiva()
-            self.dinheiro -= 30
-            self.atualizar_interface_callback()
-        else:
-            print("Dinheiro insuficiente para manutenção corretiva!")
+        """Simula manutenção corretiva para o PC"""
+        pc.manutencao_corretiva()
+        self.callback_atualizar()
+
+    def atualizar_interface(self):
+        """Atualiza a interface com as informações dos componentes"""
+        self.callback_atualizar()
