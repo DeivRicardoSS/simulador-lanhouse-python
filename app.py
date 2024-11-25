@@ -21,10 +21,6 @@ class App:
         self.label_data_hora = tk.Label(self.root, text="", font=("Arial", 16), bg="#2c3e50", fg="white")
         self.label_data_hora.pack(pady=10)
 
-        # Dinheiro (para mostrar o valor disponível)
-        self.label_dinheiro = tk.Label(self.root, text="Dinheiro: R$ 1000.00", font=("Arial", 18), bg="#2c3e50", fg="white")
-        self.label_dinheiro.pack(pady=10)
-
         # Botão iniciar
         self.button_iniciar = tk.Button(self.root, text="Iniciar", font=("Arial", 18), command=self.iniciar, bg="#16a085", fg="white", relief="flat", padx=20, pady=10)
         self.button_iniciar.pack(pady=20)
@@ -58,6 +54,10 @@ class App:
 
         # Criação dos computadores
         self.criar_computadores()
+
+        # Exibe o dinheiro na tela após o início do programa
+        self.label_dinheiro = tk.Label(self.root, text=f"Dinheiro: R$ {self.program.dinheiro:.2f}", font=("Arial", 18), bg="#2c3e50", fg="white")
+        self.label_dinheiro.pack(pady=10)
 
         # Atualiza a interface a cada segundo
         self.atualizar_interface()
