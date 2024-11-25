@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from datetime import datetime
 from main import Program
 
@@ -7,15 +8,25 @@ class App:
         self.root = tk.Tk()
         self.root.title("Simulador de Lan House")
 
-        # tamanho da janela inicial
-        self.root.geometry("450x850")
+        # Tamanho inicial da tela e configuração de redimensionamento
+        self.root.geometry("1366x768")  # Tamanho inicial
+        self.root.minsize(800, 600)  # Tamanho mínimo para não reduzir demais
+        self.root.config(bg="#2c3e50")
 
-        # Informações principais
-        self.label_data_hora = tk.Label(self.root, text="", font=("Arial", 14))
+        # Título da janela
+        self.title_label = tk.Label(self.root, text="Simulador de Lan House", font=("Arial", 24, "bold"), bg="#2c3e50", fg="white")
+        self.title_label.pack(pady=20)
+
+        # Informações principais (data e hora)
+        self.label_data_hora = tk.Label(self.root, text="", font=("Arial", 16), bg="#2c3e50", fg="white")
         self.label_data_hora.pack(pady=10)
 
+        # Dinheiro (para mostrar o valor disponível)
+        self.label_dinheiro = tk.Label(self.root, text="Dinheiro: R$ 1000.00", font=("Arial", 18), bg="#2c3e50", fg="white")
+        self.label_dinheiro.pack(pady=10)
+
         # Botão iniciar
-        self.button_iniciar = tk.Button(self.root, text="Iniciar", font=("Arial", 14), command=self.iniciar)
+        self.button_iniciar = tk.Button(self.root, text="Iniciar", font=("Arial", 18), command=self.iniciar, bg="#16a085", fg="white", relief="flat", padx=20, pady=10)
         self.button_iniciar.pack(pady=20)
 
         # Inicializando o programa, mas ainda sem exibir os computadores
@@ -24,7 +35,7 @@ class App:
         # Lista para armazenar os nomes dos componentes dos computadores
         self.computadores_labels = []
 
-        # atualizando nome da função para nome de usuario
+        # Mapeamento de componentes para exibir nomes amigáveis
         self.mapeamento_componentes = {
             "cpu": "Processador",
             "memoria": "Memória",
@@ -33,7 +44,11 @@ class App:
             "fonte": "Fonte"
         }
 
-        # Inicializa a interface
+        # Frame de computadores que será redimensionável
+        self.computadores_frame = tk.Frame(self.root, bg="#2c3e50")
+        self.computadores_frame.pack(fill="both", expand=True, padx=20, pady=20)
+
+        # Inicia a interface
         self.root.mainloop()
 
     def iniciar(self):
@@ -52,30 +67,34 @@ class App:
         # Nomes para os computadores
         nomes_computadores = ["Computador 1", "Computador 2", "Computador 3"]
 
-        # Exibe o dinheiro na tela de computadores
-        self.label_dinheiro = tk.Label(self.root, text=f"Dinheiro: R$ {self.program.dinheiro:.2f}", font=("Arial", 14))
-        self.label_dinheiro.pack(pady=10)
-
-        self.frame_computadores = tk.Frame(self.root)
-        self.frame_computadores.pack()
-
+        # Adiciona uma margem maior entre os computadores
         for idx, pc in enumerate(self.program.computadores):
-            frame = tk.Frame(self.frame_computadores, borderwidth=2, relief="groove", padx=10, pady=10)
-            frame.pack(pady=5)
+            frame = tk.Frame(self.computadores_frame, borderwidth=2, relief="groove", bg="#ecf0f1", padx=15, pady=20, width=400)
+            frame.grid(row=0, column=idx, padx=10, pady=10, sticky="nsew")  # Usando grid para controle de posição
 
             # Título do computador
-            tk.Label(frame, text=nomes_computadores[idx], font=("Arial", 12, "bold")).pack()
+            tk.Label(frame, text=nomes_computadores[idx], font=("Arial", 16, "bold"), bg="#ecf0f1").pack(pady=5)
 
             # Adiciona os nomes dos componentes
             for componente in pc.componentes:
                 nome_amigavel = self.mapeamento_componentes.get(componente.id, componente.id)  # Usa o nome amigável
-                label = tk.Label(frame, text=f"{nome_amigavel}: {componente}", font=("Arial", 10))
-                label.pack()
+                label = tk.Label(frame, text=f"{nome_amigavel}: {componente}", font=("Arial", 14), bg="#ecf0f1", anchor="w", wraplength=250)  # Adicionando wraplength
+                label.pack(fill="x", pady=5)
                 self.computadores_labels.append(label)
 
-            # Botões de manutenção
-            tk.Button(frame, text="Preventiva (R$ 50)", command=lambda p=pc: self.program.manutencao_preventiva(p)).pack(pady=5)
-            tk.Button(frame, text="Corretiva (R$ 30)", command=lambda p=pc: self.program.manutencao_corretiva(p)).pack(pady=5)
+            # Botões de manutenção (estilizados)
+            buttons_frame = tk.Frame(frame, bg="#ecf0f1")
+            buttons_frame.pack(pady=15)
+
+            tk.Button(buttons_frame, text="Preventiva (R$ 50)", command=lambda p=pc: self.program.manutencao_preventiva(p), font=("Arial", 14), bg="#27ae60", fg="white", relief="flat", padx=20, pady=5).pack(side="left", padx=10)
+            tk.Button(buttons_frame, text="Corretiva (R$ 30)", command=lambda p=pc: self.program.manutencao_corretiva(p), font=("Arial", 14), bg="#e74c3c", fg="white", relief="flat", padx=20, pady=5).pack(side="left")
+
+        # Configuração de expansão para as colunas
+        for col in range(3):  # Como temos 3 computadores
+            self.computadores_frame.grid_columnconfigure(col, weight=1, uniform="computador")
+
+        # Configuração de expansão para a linha de computadores (no caso, temos uma linha de computadores)
+        self.computadores_frame.grid_rowconfigure(0, weight=1)
 
     def atualizar_interface(self):
         """Atualiza as informações na interface sem recriar os widgets"""
