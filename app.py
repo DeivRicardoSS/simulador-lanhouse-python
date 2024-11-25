@@ -29,15 +29,6 @@ class App:
         # Lista para armazenar os nomes de componentes dos computadores
         self.computadores_labels = []
 
-        # Mapeamento de componentes para exibir nomes amigáveis
-        self.mapeamento_componentes = {
-            "cpu": "Processador",
-            "memoria": "Memória",
-            "placa_mae": "Placa Mãe",
-            "memoria_ram": "Memória RAM",
-            "fonte": "Fonte"
-        }
-
         # Frame de computadores
         self.computadores_frame = tk.Frame(self.root, bg="#2c3e50")
         self.computadores_frame.pack(fill="both", expand=True, padx=20, pady=20)
@@ -69,10 +60,10 @@ class App:
             # Nome do computador
             tk.Label(frame, text=nomes_computadores[idx], font=("Arial", 16, "bold"), bg="#ecf0f1").pack(pady=5)
 
-            # Exibe os componentes do PC
+            # Exibe os componentes do PC com o nome do componente (sem nome amigável)
             for componente in pc.componentes:
-                nome_amigavel = self.mapeamento_componentes.get(componente.id, componente.id)
-                label = tk.Label(frame, text=str(componente), font=("Arial", 14), bg="#ecf0f1", anchor="w")
+                # Aqui usamos diretamente o id do componente
+                label = tk.Label(frame, text=f"{componente.id}: {str(componente)}", font=("Arial", 14), bg="#ecf0f1", anchor="w")
                 label.pack(fill="x", pady=5)
                 self.computadores_labels.append(label)
 
@@ -107,7 +98,8 @@ class App:
         for idx, pc in enumerate(self.program.computadores):
             for j, componente in enumerate(pc.componentes):
                 label = self.computadores_labels[idx * len(pc.componentes) + j]
-                label.config(text=str(componente))  # Atualiza o texto com as informações do componente
+                # Usamos diretamente o id do componente
+                label.config(text=f"{str(componente)}")  # Atualiza o texto com as informações do componente
 
         # Atualiza a data e hora
         agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")

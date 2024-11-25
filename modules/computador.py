@@ -2,11 +2,11 @@ import random
 
 class Computador:
     COMPONENTES_CONFIG = {
-        "cpu": {"preco": 500, "reducao_vida": 0.2},
-        "memoria": {"preco": 400, "reducao_vida": 0.3},
-        "placa_mae": {"preco": 400, "reducao_vida": 0.5},
-        "memoria_ram": {"preco": 200, "reducao_vida": 0.4},
-        "fonte": {"preco": 150, "reducao_vida": 0.8}
+        "Cpu": {"preco": 500, "reducao_vida": 0.2},
+        "Armazenamento": {"preco": 400, "reducao_vida": 0.3},
+        "Placa mãe": {"preco": 400, "reducao_vida": 0.5},
+        "Memória ram": {"preco": 200, "reducao_vida": 0.4},
+        "Fonte": {"preco": 150, "reducao_vida": 0.8}
     }
 
     def __init__(self, id):

@@ -4,11 +4,11 @@ class Pc:
     def __init__(self, id):
         self.id = id
         self.componentes = [
-            Computador("cpu"),
-            Computador("memoria"),
-            Computador("placa_mae"),
-            Computador("memoria_ram"),
-            Computador("fonte")
+            Computador("Cpu"),
+            Computador("Armazenamento"),
+            Computador("Placa mãe"),
+            Computador("Memória ram"),
+            Computador("Fonte")
         ]
 
     def manutencao_preventiva(self):
