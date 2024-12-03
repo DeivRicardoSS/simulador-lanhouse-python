@@ -1,7 +1,10 @@
+import pandas as pd
+import matplotlib.pyplot as plt
 import time
 from utilities.clear import clear
 from modules.pc import Pc
 from calc.reportar import reportar
+from calc.reportar import trocar
 
 class Program:
     #Construtor
@@ -13,7 +16,7 @@ class Program:
         #horas
         this.horas = 8
         #temporeal
-        this.timerate = 0.5
+        this.timerate = 0.001
         #lista de manutenção
         this.lista_manutencao = []
         #lista de computadores
@@ -43,9 +46,34 @@ class Program:
             if this.horas == 19:
                 this.horas = 8
                 this.dia += 1
+            if this.dia == 7:
+                clear()
+                this.acoes_semanais()
+                break
             #===============================
                 
-    
+    def acoes_semanais(this):
+        data = {
+            "Componente": [m.componente for m in this.lista_manutencao],
+            "Custo": [m.custo for m in this.lista_manutencao],
+            "Tipo": [m.tipo for m in this.lista_manutencao],
+        }
+
+        df = pd.DataFrame(data)
+
+        print("\nResumo das Manutenções Semanais:\n")
+        print(df)
+
+        print("\nCusto Total por Tipo de Manutenção:\n")
+        print(df.groupby("Tipo")["Custo"].sum())
+
+        df.groupby("Tipo")["Custo"].sum().plot(
+            kind="bar",
+            title="Custo Total por Tipo de Manutenção",
+            xlabel="Tipo",
+            ylabel="Custo R$",
+        )
+        plt.show()
 
     def listar_pcs(this):
         #percorrer computadores
@@ -69,8 +97,7 @@ class Program:
                             pc.status = "Funcionando"
                     
                     pc.tempo_de_inatividade += 1
-                        
-                    
+                      
                 else:
                     #Computador Não Está quebrado
                     #vida útil dos componentes diminui
@@ -82,6 +109,18 @@ class Program:
                         pc.status = "Quebrado"
                         reportar(comp, this.timerate, this.lista_manutencao, "corretiva")
                         pc.status = "Funcionando"
+
+                    
+                    if comp.tempo_de_vida <= 20:
+                        if comp.quant_preventiva < 3 and comp.tempo_manutencao == 0:
+                            trocar(comp, this.lista_manutencao)
+                            comp.tempo_manutencao += 1
+                            pc.status = "Manutenção Preventiva"
+                        if comp.quant_preventiva < 3 and comp.tempo_manutencao == 10:
+                            trocar(comp, this.lista_manutencao)
+                            comp.tempo_manutencao = 0
+                            comp.quant_preventiva += 1
+                            pc.status = "Funcionando"
                 
             
 

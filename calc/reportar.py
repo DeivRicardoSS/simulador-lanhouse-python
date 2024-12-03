@@ -9,3 +9,13 @@ def reportar(item, timerate, lista_manutencao, tipo):
     item.custo += calccusto(tipo, item.preco, 50)
     item.quebrado = False
     item.tempo_de_vida = 100
+
+def trocar(item, lista_manutencao):
+    if item.tipo == "original":
+        lista_manutencao.append(Manut(len(lista_manutencao), calccusto("preventiva", item.preco, 50), "preventiva", item))
+        item.tipo = "temporaria"
+        item.tempo_de_vida = 100
+    else:
+        item.tipo = "original"
+        item.tempo_de_vida = 80
+        item.custo += calccusto("preventiva", item.preco, 50)

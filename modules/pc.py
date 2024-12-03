@@ -31,5 +31,7 @@ class Pc:
                 this.ligado = False
         elif this.ligado == False and this.status != "Quebrado":#se tiver desligado
             #liga de forma aleatória
-            if random.randint(0, 10):
+            if random.randint(0, 10) == 9:
                 this.ligado = True
+                this.tempo_de_inatividade = 0
+            

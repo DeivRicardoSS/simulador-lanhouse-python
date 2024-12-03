@@ -15,6 +15,11 @@ class Comp:
         #preço
         this.preco = 0
 
+        this.tipo = "original"
+
+        this.quant_preventiva = 0
+        this.tempo_manutencao = 0
+
         this.erro = 0
         
         #separando os preços de acordo com a peça
@@ -46,7 +51,7 @@ class Comp:
 
     #quebrar aleatoriamente
     def quebrarRand(this):
-        if random.randint(0, 1000) < 10 and not this.quebrado:
+        if random.randint(0, 5000) < 10 and not this.quebrado:
             this.quebrado = True
             this.erro = 1
             return True
