@@ -90,18 +90,19 @@ class Program:
             #percorrer componentes
             for comp in pc.componentes:
                 #printar status dos componentes
-                print(f"Nome: {comp.id.ljust(15)} | Quebrado: {comp.quebrado} | Tempo de vida: {comp.tempo_de_vida:.2f} | Custo: {comp.custo}")
+                print(f"Nome: {comp.id.ljust(15)} | Quebrado: {comp.quebrado} | Tempo de vida: {comp.tempo_de_vida:.2f} | Custo: {comp.custo:02}")
                 if pc.ligado:
                     comp.quebrarRand()
                 #caso o componente quebrou o pc desliga
-                if comp.quebrado == True:
+                if comp.quebrado == True and comp.erro == 1:
                     pc.ligado = False
                     if pc.tempo_de_inatividade < 10:
                         pc.status = "Quebrado"
                     else:
-                        if comp.erro == 1:
-                            reportar(comp, this.timerate, this.lista_manutencao, "corretiva")
-                            pc.status = "Funcionando"
+                        reportar(comp, this.timerate, this.lista_manutencao, "corretiva")
+                        pc.status = "Funcionando"
+                        comp.erro = 0
+                            
                     
                     pc.tempo_de_inatividade += 1
                       
@@ -109,25 +110,31 @@ class Program:
                     #Computador Não Está quebrado
                     #vida útil dos componentes diminui
                     if pc.ligado and comp.tempo_de_vida > 0: comp.vidautil()
-                    elif comp.tempo_de_vida <= 0:
+                    if comp.tempo_de_vida <= 20:
+                        if comp.quant_preventiva <= 6 and comp.tempo_manutencao == 0:
+                            trocar(comp, this.lista_manutencao)
+                            pc.status = "Manutenção Preventiva"
+                        if comp.quant_preventiva <= 6 and comp.tempo_manutencao <= 10:
+                            comp.tempo_manutencao += 1
+                        if comp.quant_preventiva <= 6 and comp.tempo_manutencao >= 10:
+                            trocar(comp, this.lista_manutencao)
+                            comp.tempo_manutencao = 0
+                            pc.status = "Funcionando"
+
+                    if comp.tempo_de_vida <= 0:
                         #se o tempo de vida chegar a 0 o pc desliga 
                         comp.quebrado = True
                         pc.ligado = False
-                        pc.status = "Quebrado"
-                        reportar(comp, this.timerate, this.lista_manutencao, "corretiva")
-                        pc.status = "Funcionando"
+                        if pc.tempo_de_inatividade < 10:
+                            pc.status = "Quebrado"
+                            pc.tempo_de_inatividade += 1
+                        else:
+                            reportar(comp, this.timerate, this.lista_manutencao, "corretiva")
+                            comp.erro = 0
+                            pc.status = "Funcionando"
 
                     
-                    if comp.tempo_de_vida <= 20:
-                        if comp.quant_preventiva < 3 and comp.tempo_manutencao == 0:
-                            trocar(comp, this.lista_manutencao)
-                            comp.tempo_manutencao += 1
-                            pc.status = "Manutenção Preventiva"
-                        if comp.quant_preventiva < 3 and comp.tempo_manutencao == 10:
-                            trocar(comp, this.lista_manutencao)
-                            comp.tempo_manutencao = 0
-                            comp.quant_preventiva += 1
-                            pc.status = "Funcionando"
+                    
                 
             
 
