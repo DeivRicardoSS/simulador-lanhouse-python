@@ -51,7 +51,7 @@ class Comp:
 
     #quebrar aleatoriamente
     def quebrarRand(this):
-        if random.randint(0, 5000) < 10 and not this.quebrado:
+        if random.randint(0, 7000) < 10 and not this.quebrado:
             this.quebrado = True
             this.erro = 1
             return True
