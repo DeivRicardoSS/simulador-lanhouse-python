@@ -47,12 +47,15 @@ class Program:
                 this.horas = 8
                 this.dia += 1
             if this.dia == 7:
+                #caso passe 7 dias, mostrar resumo semanal
+                #parar loop
                 clear()
                 this.acoes_semanais()
                 break
             #===============================
                 
     def acoes_semanais(this):
+        #separar os dados da lista de manutenção
         data = {
             "Componente": [m.componente for m in this.lista_manutencao],
             "Custo": [m.custo for m in this.lista_manutencao],
