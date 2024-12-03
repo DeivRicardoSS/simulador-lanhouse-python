@@ -3,8 +3,6 @@ def calccusto(tipo, preco, maodeobra):
     if tipo == "preventiva":
         return preco/3 + maodeobra
     else:
-        #nada a ver meu 3x o valor da peça
-        #faria mais sentido se fosse só o valor da peça
-        #mas você 🫵 que colocou no pdf que era pra ser assim
-        return preco + 0.3 * 10
+        #custo da corretiva é o preço + 0.3 x (inatividade_em_minutos / 1 hora)
+        return preco + 0.3 * (10/60)
     

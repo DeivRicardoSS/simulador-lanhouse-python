@@ -62,14 +62,18 @@ class Program:
             "Tipo": [m.tipo for m in this.lista_manutencao],
         }
 
+        #criar tabela
         df = pd.DataFrame(data)
 
         print("\nResumo das Manutenções Semanais:\n")
+        #printar tabela
         print(df)
 
         print("\nCusto Total por Tipo de Manutenção:\n")
+        #printar tabela com o valor que cada tipo de manutenção gastou
         print(df.groupby("Tipo")["Custo"].sum())
 
+        #montando gráfico com o valor que cada tipo de manutenção gastou
         df.groupby("Tipo")["Custo"].sum().plot(
             kind="bar",
             title="Custo Total por Tipo de Manutenção",
